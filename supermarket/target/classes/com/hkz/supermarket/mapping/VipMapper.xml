@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.VipMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Vip">
+    <id column="vip_id" jdbcType="INTEGER" property="vipId" />
+    <result column="vip_account" jdbcType="VARCHAR" property="vipAccount" />
+    <result column="vip_name" jdbcType="VARCHAR" property="vipName" />
+    <result column="vip_uses_money" jdbcType="DECIMAL" property="vipUsesMoney" />
+    <result column="vip_code" jdbcType="INTEGER" property="vipCode" />
+    <result column="vip_date" jdbcType="VARCHAR" property="vipDate" />
+    <result column="vip_phone" jdbcType="VARCHAR" property="vipPhone" />  
+  </resultMap>
+  <sql id="Base_Column_List">
+    vip_id, vip_account, vip_name, vip_uses_money, vip_code, vip_date,vip_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_vip
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_vip
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Vip">
+    insert into tb_vip (vip_id, vip_account, vip_name, 
+      vip_uses_money, vip_code, vip_date,vip_phone
+      )
+    values (#{vipId,jdbcType=INTEGER}, #{vipAccount,jdbcType=VARCHAR}, #{vipName,jdbcType=VARCHAR}, 
+      #{vipUsesMoney,jdbcType=DECIMAL}, #{vipCode,jdbcType=INTEGER}, #{vipDate,jdbcType=VARCHAR},#{vipPhone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.Vip">
+    insert into tb_vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        vip_id,
+      </if>
+      <if test="vipAccount != null">
+        vip_account,
+      </if>
+      <if test="vipName != null">
+        vip_name,
+      </if>
+      <if test="vipUsesMoney != null">
+        vip_uses_money,
+      </if>
+      <if test="vipCode != null">
+        vip_code,
+      </if>
+      <if test="vipDate != null">
+        vip_date,
+      </if>
+      <if test="vipDate != null">
+        vip_phone
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="vipId != null">
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="vipAccount != null">
+        #{vipAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="vipName != null">
+        #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipUsesMoney != null">
+        #{vipUsesMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="vipCode != null">
+        #{vipCode,jdbcType=INTEGER},
+      </if>
+      <if test="vipDate != null">
+        #{vipDate,jdbcType=VARCHAR},
+      </if>
+      <if test="vipPhone != null">
+        #{vipPhone,jdbcType=VARCHAR},
+      </if>
+      
+      	
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Vip">
+    update tb_vip
+    <set>
+      <if test="vipAccount != null">
+        vip_account = #{vipAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="vipName != null">
+        vip_name = #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipUsesMoney != null">
+        vip_uses_money = #{vipUsesMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="vipCode != null">
+        vip_code = #{vipCode,jdbcType=INTEGER},
+      </if>
+      <if test="vipDate != null">
+        vip_date = #{vipDate,jdbcType=VARCHAR},
+      </if>
+       <if test="vipPhone != null">
+        vip_phone = #{vipPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Vip">
+    update tb_vip
+    set vip_account = #{vipAccount,jdbcType=VARCHAR},
+      vip_name = #{vipName,jdbcType=VARCHAR},
+      vip_uses_money = #{vipUsesMoney,jdbcType=DECIMAL},
+      vip_code = #{vipCode,jdbcType=INTEGER},
+      vip_date = #{vipDate,jdbcType=VARCHAR},
+      vip_phone = #{vipPhone,jdbcType=VARCHAR},
+    where vip_id = #{vipId,jdbcType=INTEGER}
+  </update>
+  
+  <select id = "selectVip" resultMap = "BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tb_vip
+  </select>
+  
+  <select id = "searchByName" parameterType="java.lang.String" resultMap = "BaseResultMap">
+  	select 
+  		<include refid = "Base_Column_List" />
+  	from tb_vip
+  	where vip_account like concat('%',concat(#{account},'%'))
+  </select>
+  
+  <select id = "selectVipByName" parameterType="java.lang.String" resultMap = "BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from tb_vip where vip_account = #{account}
+  </select>
+</mapper>

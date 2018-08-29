@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.CommodityMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Commodity">
+    <id column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="commodity_code" jdbcType="VARCHAR" property="commodityCode" />
+    <result column="commodity_barCode" jdbcType="VARCHAR" property="commodityBarcode" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="commodity_now_num" jdbcType="DOUBLE" property="commodityNowNum" />
+    <result column="commodity_warn_num" jdbcType="DOUBLE" property="commodityWarnNum" />
+    <result column="commodity_type" jdbcType="VARCHAR" property="commodityType" />
+    <result column="commodity_purchase_price" jdbcType="DECIMAL" property="commodityPurchasePrice" />
+    <result column="commodity_selling_price" jdbcType="DECIMAL" property="commoditySellingPrice" />
+    <result column="commodity_allow_sell" jdbcType="INTEGER" property="commodityAllowSell" />
+    <result column="commodity_key_hot" jdbcType="INTEGER" property="commodityKeyHot" />
+    <result column="commodity_manufacturer" jdbcType="VARCHAR" property="commodityManufacturer" />
+    <result column="commodity_super" jdbcType="VARCHAR" property="commoditySuper" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    commodity_id, commodity_code, commodity_barCode, commodity_name, commodity_now_num, 
+    commodity_warn_num, commodity_type, commodity_purchase_price, commodity_selling_price, 
+    commodity_allow_sell, commodity_key_hot, commodity_manufacturer, commodity_super
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_commodity
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_commodity
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Commodity">
+    insert into tb_commodity (commodity_id, commodity_code, commodity_barCode, 
+      commodity_name, commodity_now_num, commodity_warn_num, 
+      commodity_type, commodity_purchase_price, 
+      commodity_selling_price, commodity_allow_sell, 
+      commodity_key_hot, commodity_manufacturer, 
+      commodity_super)
+    values (#{commodityId,jdbcType=INTEGER}, #{commodityCode,jdbcType=VARCHAR}, #{commodityBarcode,jdbcType=VARCHAR}, 
+      #{commodityName,jdbcType=VARCHAR}, #{commodityNowNum,jdbcType=DOUBLE}, #{commodityWarnNum,jdbcType=DOUBLE}, 
+      #{commodityType,jdbcType=VARCHAR}, #{commodityPurchasePrice,jdbcType=DECIMAL}, 
+      #{commoditySellingPrice,jdbcType=DECIMAL}, #{commodityAllowSell,jdbcType=INTEGER}, 
+      #{commodityKeyHot,jdbcType=INTEGER}, #{commodityManufacturer,jdbcType=VARCHAR}, 
+      #{commoditySuper,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.Commodity">
+    insert into tb_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="commodityCode != null">
+        commodity_code,
+      </if>
+      <if test="commodityBarcode != null">
+        commodity_barCode,
+      </if>
+      <if test="commodityName != null">
+        commodity_name,
+      </if>
+      <if test="commodityNowNum != null">
+        commodity_now_num,
+      </if>
+      <if test="commodityWarnNum != null">
+        commodity_warn_num,
+      </if>
+      <if test="commodityType != null">
+        commodity_type,
+      </if>
+      <if test="commodityPurchasePrice != null">
+        commodity_purchase_price,
+      </if>
+      <if test="commoditySellingPrice != null">
+        commodity_selling_price,
+      </if>
+      <if test="commodityAllowSell != null">
+        commodity_allow_sell,
+      </if>
+      <if test="commodityKeyHot != null">
+        commodity_key_hot,
+      </if>
+      <if test="commodityManufacturer != null">
+        commodity_manufacturer,
+      </if>
+      <if test="commoditySuper != null">
+        commodity_super,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityCode != null">
+        #{commodityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityBarcode != null">
+        #{commodityBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityName != null">
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNowNum != null">
+        #{commodityNowNum,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityWarnNum != null">
+        #{commodityWarnNum,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityType != null">
+        #{commodityType,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPurchasePrice != null">
+        #{commodityPurchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commoditySellingPrice != null">
+        #{commoditySellingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityAllowSell != null">
+        #{commodityAllowSell,jdbcType=INTEGER},
+      </if>
+      <if test="commodityKeyHot != null">
+        #{commodityKeyHot,jdbcType=INTEGER},
+      </if>
+      <if test="commodityManufacturer != null">
+        #{commodityManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="commoditySuper != null">
+        #{commoditySuper,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Commodity">
+    update tb_commodity
+    <set>
+      <if test="commodityCode != null">
+        commodity_code = #{commodityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityBarcode != null">
+        commodity_barCode = #{commodityBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityName != null">
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNowNum != null">
+        commodity_now_num = #{commodityNowNum,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityWarnNum != null">
+        commodity_warn_num = #{commodityWarnNum,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityType != null">
+        commodity_type = #{commodityType,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPurchasePrice != null">
+        commodity_purchase_price = #{commodityPurchasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commoditySellingPrice != null">
+        commodity_selling_price = #{commoditySellingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityAllowSell != null">
+        commodity_allow_sell = #{commodityAllowSell,jdbcType=INTEGER},
+      </if>
+      <if test="commodityKeyHot != null">
+        commodity_key_hot = #{commodityKeyHot,jdbcType=INTEGER},
+      </if>
+      <if test="commodityManufacturer != null">
+        commodity_manufacturer = #{commodityManufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="commoditySuper != null">
+        commodity_super = #{commoditySuper,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Commodity">
+    update tb_commodity
+    set commodity_code = #{commodityCode,jdbcType=VARCHAR},
+      commodity_barCode = #{commodityBarcode,jdbcType=VARCHAR},
+      commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_now_num = #{commodityNowNum,jdbcType=DOUBLE},
+      commodity_warn_num = #{commodityWarnNum,jdbcType=DOUBLE},
+      commodity_type = #{commodityType,jdbcType=VARCHAR},
+      commodity_purchase_price = #{commodityPurchasePrice,jdbcType=DECIMAL},
+      commodity_selling_price = #{commoditySellingPrice,jdbcType=DECIMAL},
+      commodity_allow_sell = #{commodityAllowSell,jdbcType=INTEGER},
+      commodity_key_hot = #{commodityKeyHot,jdbcType=INTEGER},
+      commodity_manufacturer = #{commodityManufacturer,jdbcType=VARCHAR},
+      commodity_super = #{commoditySuper,jdbcType=VARCHAR}
+    where commodity_id = #{commodityId,jdbcType=INTEGER}
+  </update>
+  
+  <select id = "selectCommodity" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from tb_commodity
+  </select>
+    <select id="selectCommodityByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_commodity
+    where commodity_code = #{commodity_code,jdbcType=INTEGER}
+  </select>
+  
+  <select id = "searchByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select
+  		<include refid = "Base_Column_List" />
+  		from tb_commodity
+    where commodity_code like concat('%',concat(#{commodityCode},'%'))
+  </select>
+  
+  <select id = "searchByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select
+  		<include refid = "Base_Column_List" />
+  		from tb_commodity
+    where commodity_name like concat('%',concat(#{commodityName},'%'))
+  </select>
+  
+  <select id = "searchNumLess" resultType="java.lang.String">
+  		select
+  		c1.commodity_name
+  		from tb_commodity c1 left join tb_commodity c2 on c1.commodity_id = c2.commodity_id
+  		where <![CDATA[ c1.commodity_now_num <= c2.commodity_warn_num ]]>
+  </select>
+  
+</mapper>

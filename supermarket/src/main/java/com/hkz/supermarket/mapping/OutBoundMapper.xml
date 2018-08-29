@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.OutBoundMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.OutBound">
+    <id column="outbound_id" jdbcType="INTEGER" property="outboundId" />
+    <result column="outbound_order_number" jdbcType="VARCHAR" property="outboundOrderNumber" />
+    <result column="outbound_commodity_id" jdbcType="VARCHAR" property="outboundCommodityId" />
+    <result column="outbound_commodity_name" jdbcType="VARCHAR" property="outboundCommodityName" />
+    <result column="outbound_commodity_num" jdbcType="DOUBLE" property="outboundCommodityNum" />
+    <result column="outbound_commodity_price" jdbcType="DECIMAL" property="outboundCommodityPrice" />
+    <result column="outbound_money" jdbcType="DECIMAL" property="outboundMoney" />
+    <result column="outbound_date" jdbcType="VARCHAR" property="outboundDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    outbound_id, outbound_order_number, outbound_commodity_id, outbound_commodity_name, 
+    outbound_commodity_num, outbound_commodity_price, outbound_money, outbound_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_outbound
+    where outbound_id = #{outboundId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_outbound
+    where outbound_id = #{outboundId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.OutBound">
+    insert into tb_outbound (outbound_id, outbound_order_number, 
+      outbound_commodity_id, outbound_commodity_name, 
+      outbound_commodity_num, outbound_commodity_price, 
+      outbound_money, outbound_date)
+    values (#{outboundId,jdbcType=INTEGER}, #{outboundOrderNumber,jdbcType=VARCHAR}, 
+      #{outboundCommodityId,jdbcType=VARCHAR}, #{outboundCommodityName,jdbcType=VARCHAR}, 
+      #{outboundCommodityNum,jdbcType=DOUBLE}, #{outboundCommodityPrice,jdbcType=DECIMAL}, 
+      #{outboundMoney,jdbcType=DECIMAL}, #{outboundDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.OutBound">
+    insert into tb_outbound
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="outboundId != null">
+        outbound_id,
+      </if>
+      <if test="outboundOrderNumber != null">
+        outbound_order_number,
+      </if>
+      <if test="outboundCommodityId != null">
+        outbound_commodity_id,
+      </if>
+      <if test="outboundCommodityName != null">
+        outbound_commodity_name,
+      </if>
+      <if test="outboundCommodityNum != null">
+        outbound_commodity_num,
+      </if>
+      <if test="outboundCommodityPrice != null">
+        outbound_commodity_price,
+      </if>
+      <if test="outboundMoney != null">
+        outbound_money,
+      </if>
+      <if test="outboundDate != null">
+        outbound_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="outboundId != null">
+        #{outboundId,jdbcType=INTEGER},
+      </if>
+      <if test="outboundOrderNumber != null">
+        #{outboundOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityId != null">
+        #{outboundCommodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityName != null">
+        #{outboundCommodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityNum != null">
+        #{outboundCommodityNum,jdbcType=DOUBLE},
+      </if>
+      <if test="outboundCommodityPrice != null">
+        #{outboundCommodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="outboundMoney != null">
+        #{outboundMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="outboundDate != null">
+        #{outboundDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.OutBound">
+    update tb_outbound
+    <set>
+      <if test="outboundOrderNumber != null">
+        outbound_order_number = #{outboundOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityId != null">
+        outbound_commodity_id = #{outboundCommodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityName != null">
+        outbound_commodity_name = #{outboundCommodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundCommodityNum != null">
+        outbound_commodity_num = #{outboundCommodityNum,jdbcType=DOUBLE},
+      </if>
+      <if test="outboundCommodityPrice != null">
+        outbound_commodity_price = #{outboundCommodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="outboundMoney != null">
+        outbound_money = #{outboundMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="outboundDate != null">
+        outbound_date = #{outboundDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where outbound_id = #{outboundId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.OutBound">
+    update tb_outbound
+    set outbound_order_number = #{outboundOrderNumber,jdbcType=VARCHAR},
+      outbound_commodity_id = #{outboundCommodityId,jdbcType=VARCHAR},
+      outbound_commodity_name = #{outboundCommodityName,jdbcType=VARCHAR},
+      outbound_commodity_num = #{outboundCommodityNum,jdbcType=DOUBLE},
+      outbound_commodity_price = #{outboundCommodityPrice,jdbcType=DECIMAL},
+      outbound_money = #{outboundMoney,jdbcType=DECIMAL},
+      outbound_date = #{outboundDate,jdbcType=VARCHAR}
+    where outbound_id = #{outboundId,jdbcType=INTEGER}
+  </update>
+</mapper>

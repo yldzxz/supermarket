@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.DepartMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Depart">
+    <id column="depart_id" jdbcType="INTEGER" property="departId" />
+    <result column="depart_number" jdbcType="VARCHAR" property="departNumber" />
+    <result column="depart_name" jdbcType="VARCHAR" property="departName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    depart_id, depart_number, depart_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_depart
+    where depart_id = #{departId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_depart
+    where depart_id = #{departId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Depart">
+    insert into tb_depart (depart_id, depart_number, depart_name
+      )
+    values (#{departId,jdbcType=INTEGER}, #{departNumber,jdbcType=VARCHAR}, #{departName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.Depart">
+    insert into tb_depart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departId != null">
+        depart_id,
+      </if>
+      <if test="departNumber != null">
+        depart_number,
+      </if>
+      <if test="departName != null">
+        depart_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departId != null">
+        #{departId,jdbcType=INTEGER},
+      </if>
+      <if test="departNumber != null">
+        #{departNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null">
+        #{departName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Depart">
+    update tb_depart
+    <set>
+      <if test="departNumber != null">
+        depart_number = #{departNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null">
+        depart_name = #{departName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where depart_id = #{departId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Depart">
+    update tb_depart
+    set depart_number = #{departNumber,jdbcType=VARCHAR},
+      depart_name = #{departName,jdbcType=VARCHAR}
+    where depart_id = #{departId,jdbcType=INTEGER}
+  </update>
+</mapper>

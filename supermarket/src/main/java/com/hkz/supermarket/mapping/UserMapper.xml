@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_age" jdbcType="INTEGER" property="userAge" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_salary" jdbcType="VARCHAR" property="userSalary" />
+    <result column="user_depart_id" jdbcType="VARCHAR" property="userDepartId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_account, user_password, user_email, user_age, user_sex, user_salary, 
+    user_depart_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectUser"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+  </select>
+  
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_account = #{user_account,jdbcType=VARCHAR}
+  </select>
+  <select id = "selectUserById" parameterType="java.lang.Integer" resultMap ="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_id = #{user_id}
+  </select>
+  
+  <select id = "searchByName" parameterType="java.lang.String" resultMap ="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where user_account like concat(concat('%',#{text}),'%')
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.User">
+    insert into tb_user (user_id, user_account, user_password, 
+      user_email, user_age, user_sex, 
+      user_salary, user_depart_id)
+    values (#{userId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userAge,jdbcType=INTEGER}, #{userSex,jdbcType=VARCHAR}, 
+      #{userSalary,jdbcType=VARCHAR}, #{userDepartId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userAge != null">
+        user_age,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userSalary != null">
+        user_salary,
+      </if>
+      <if test="userDepartId != null">
+        user_depart_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userSalary != null">
+        #{userSalary,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartId != null">
+        #{userDepartId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.User">
+    update tb_user
+    <set>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null">
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userSalary != null">
+        user_salary = #{userSalary,jdbcType=VARCHAR},
+      </if>
+      <if test="userDepartId != null">
+        user_depart_id = #{userDepartId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.User">
+    update tb_user
+    set user_account = #{userAccount,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_salary = #{userSalary,jdbcType=VARCHAR},
+      user_depart_id = #{userDepartId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

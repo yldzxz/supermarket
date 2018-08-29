@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.InputmoneyMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Inputmoney">
+    <id column="inputmoney_id" jdbcType="INTEGER" property="inputmoneyId" />
+    <result column="inputmoney_deal_number" jdbcType="VARCHAR" property="inputmoneyDealNumber" />
+    <result column="inputmoney_type" jdbcType="VARCHAR" property="inputmoneyType" />
+    <result column="inputmoney_get" jdbcType="DECIMAL" property="inputmoneyGet" />
+    <result column="inputmoney_time" jdbcType="TIMESTAMP" property="inputmoneyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    inputmoney_id, inputmoney_deal_number, inputmoney_type, inputmoney_get,inputmoney_time
+  </sql>
+   <insert id="insert" parameterType="com.hkz.supermarket.model.Inputmoney">
+    insert into tb_inputmoney (inputmoney_id,  
+      inputmoney_deal_number, inputmoney_type, inputmoney_get,inputmoney_time
+      )
+    values (#{inputmoneyId,jdbcType=INTEGER}, 
+      #{inputmoneyDealNumber,jdbcType=VARCHAR}, #{inputmoneyType,jdbcType=VARCHAR}, #{inputmoneyGet,jdbcType=DECIMAL},#{inputmoneyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <select id = "selectMoney" resultMap="BaseResultMap">
+  		select 
+    <include refid="Base_Column_List" />
+    	from tb_inputmoney
+  </select>
+  <select id = "pet" resultType = "java.math.BigDecimal">
+  	select sum(inputmoney_get)  from tb_inputmoney
+  </select>
+  <select id = "petToday" resultType = "java.math.BigDecimal">
+  	select sum(inputmoney_get)  from tb_inputmoney where to_days(now()) = to_days(inputmoney_time)
+  </select>
+  <select id = "petMonth" resultType = "java.math.BigDecimal">
+  	select sum(inputmoney_get)  from tb_inputmoney where DATE_FORMAT(inputmoney_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+  </select>
+  
+</mapper>

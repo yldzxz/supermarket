@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.SellMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Sell">
+    <id column="sell_id" jdbcType="INTEGER" property="sellId" />
+    <id column="sell_order_number" jdbcType="VARCHAR" property="sellOrderNumber" />
+    <result column="sell_deal_number" jdbcType="VARCHAR" property="sellDealNumber" />
+    <result column="sell_vip_id" jdbcType="VARCHAR" property="sellVipId" />
+    <result column="sell_commodity_code" jdbcType="VARCHAR" property="sellCommodityId" />
+    <result column="sell_commodity_name" jdbcType="VARCHAR" property="sellCommodityName" />
+    <result column="sell_num" jdbcType="DOUBLE" property="sellNum" />
+    <result column="sell_price" jdbcType="DECIMAL" property="sellPrice" />
+    <result column="sell_money" jdbcType="DECIMAL" property="sellMoney" />
+    <result column="sell_date" jdbcType="TIMESTAMP" property="sellDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sell_id, sell_order_number, sell_deal_number, sell_vip_id,sell_commodity_code, sell_commodity_name, sell_num, 
+    sell_price, sell_money, sell_date
+  </sql>
+  <select id="selectSellByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell
+    where sell_order_number = #{sellOrderNumber,jdbcType=INTEGER}
+  </select>
+	
+	<select id="selectSell"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell
+    
+  </select>	
+  <select id="searchBySellHot"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell
+    order by sell_num DESC
+  </select>
+  <select id="searchBySellDate"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell
+    order by sell_date DESC
+  </select>
+  
+  <!-- 昨日销量最多 -->
+  <select id="searchHotCommodityYearsterday"  resultType="string">
+    select 
+		sell_commodity_name 	
+    from tb_sell
+    where   <![CDATA[ TO_DAYS(now()) - TO_DAYS(sell_date) <= 1
+    GROUP BY sell_commodity_name ORDER BY sum(sell_num) DESC LIMIT 2]]>
+  </select>
+  <!-- 上月销量最多 -->
+  <select id="searchHotCommodityMonth"  resultType="string">
+    select 
+		sell_commodity_name 	
+    from tb_sell
+    where   <![CDATA[ DATE_FORMAT( sell_date, '%Y%m' ) = DATE_FORMAT(CURDATE(), '%Y%m' )
+    GROUP BY sell_commodity_name ORDER BY sum(sell_num) DESC LIMIT 2]]>
+    
+  </select>
+  <!-- 总销量最多 -->
+   <select id="searchHotCommodity"  resultType="string">
+     select 
+		sell_commodity_name 	
+    from tb_sell
+   <![CDATA[ GROUP BY sell_commodity_name ORDER BY sum(sell_num) DESC LIMIT 2]]>
+  </select>
+  
+  <insert id = "insert" parameterType="com.hkz.supermarket.model.Sell" >
+  		insert into tb_sell (sell_id, sell_order_number, sell_deal_number, sell_vip_id,sell_commodity_code,sell_commodity_name, sell_num, 
+    sell_price, sell_money, sell_date)
+    values (#{sellId,jdbcType=INTEGER}, #{sellOrderNumber,jdbcType=VARCHAR}, #{sellDealNumber,jdbcType=VARCHAR}, 
+      #{sellVipId,jdbcType=VARCHAR}, #{sellCommodityId,jdbcType=VARCHAR},#{sellCommodityName,jdbcType=VARCHAR},#{sellNum,jdbcType=DOUBLE},
+       #{sellPrice,jdbcType=DECIMAL},#{sellMoney,jdbcType=DECIMAL},#{sellDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+</mapper>

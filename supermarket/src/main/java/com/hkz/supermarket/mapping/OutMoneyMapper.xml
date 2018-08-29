@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.OutMoneyMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.OutMoney">
+    <id column="outmoney_id" jdbcType="INTEGER" property="outmoneyId" />
+    <result column="outmoney_inbound_number" jdbcType="VARCHAR" property="outmoneyInboundNumber" />
+    <result column="outmoney_type" jdbcType="VARCHAR" property="outmoneyType" />
+    <result column="outmoney_get" jdbcType="DECIMAL" property="outmoneyGet" />
+    <result column="outmoney_time" jdbcType="TIMESTAMP" property="outmoneyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    outmoney_id, outmoney_inbound_number, outmoney_type, outmoney_get,outmoney_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_outmoney
+    where outmoney_id = #{outmoneyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_outmoney
+    where outmoney_id = #{outmoneyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.OutMoney">
+    insert into tb_outmoney (outmoney_id,  
+      outmoney_inbound_number, outmoney_type, outmoney_get,outmoney_time
+      )
+    values (#{outmoneyId,jdbcType=INTEGER}, 
+      #{outmoneyInboundNumber,jdbcType=VARCHAR}, #{outmoneyType,jdbcType=VARCHAR}, #{outmoneyGet,jdbcType=DECIMAL},#{outmoneyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+   <select id = "selectMoney" resultMap="BaseResultMap">
+  		select 
+    <include refid="Base_Column_List" />
+    	from tb_outmoney
+  </select>
+  <select id = "pay" resultType = "java.math.BigDecimal">
+  	select sum(outmoney_get)  from tb_outmoney
+  </select>
+  <select id = "payToday" resultType = "java.math.BigDecimal">
+  	select sum(outmoney_get)  from tb_outmoney where to_days(now()) = to_days(outmoney_time)
+  </select>
+  <select id = "payMonth" resultType = "java.math.BigDecimal">
+  	select sum(outmoney_get)  from tb_outmoney where DATE_FORMAT(outmoney_time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+  </select>
+  
+</mapper>

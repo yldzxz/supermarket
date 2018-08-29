@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.ManufacturerMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Manufacturer">
+    <id column="manufacturer_id" jdbcType="INTEGER" property="manufacturerId" />
+    <result column="manufacturer_name" jdbcType="VARCHAR" property="manufacturerName" />
+    <result column="manufacturer_location" jdbcType="VARCHAR" property="manufacturerLocation" />
+    <result column="manufacturer_phone" jdbcType="VARCHAR" property="manufacturerPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    manufacturer_id, manufacturer_name, manufacturer_location, manufacturer_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_manufacturer
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_manufacturer
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Manufacturer">
+    insert into tb_manufacturer (manufacturer_id, manufacturer_name, 
+      manufacturer_location, manufacturer_phone
+      )
+    values (#{manufacturerId,jdbcType=INTEGER}, #{manufacturerName,jdbcType=VARCHAR}, 
+      #{manufacturerLocation,jdbcType=VARCHAR}, #{manufacturerPhone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.Manufacturer">
+    insert into tb_manufacturer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="manufacturerId != null">
+        manufacturer_id,
+      </if>
+      <if test="manufacturerName != null">
+        manufacturer_name,
+      </if>
+      <if test="manufacturerLocation != null">
+        manufacturer_location,
+      </if>
+      <if test="manufacturerPhone != null">
+        manufacturer_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="manufacturerId != null">
+        #{manufacturerId,jdbcType=INTEGER},
+      </if>
+      <if test="manufacturerName != null">
+        #{manufacturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerLocation != null">
+        #{manufacturerLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerPhone != null">
+        #{manufacturerPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Manufacturer">
+    update tb_manufacturer
+    <set>
+      <if test="manufacturerName != null">
+        manufacturer_name = #{manufacturerName,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerLocation != null">
+        manufacturer_location = #{manufacturerLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturerPhone != null">
+        manufacturer_phone = #{manufacturerPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Manufacturer">
+    update tb_manufacturer
+    set manufacturer_name = #{manufacturerName,jdbcType=VARCHAR},
+      manufacturer_location = #{manufacturerLocation,jdbcType=VARCHAR},
+      manufacturer_phone = #{manufacturerPhone,jdbcType=VARCHAR}
+    where manufacturer_id = #{manufacturerId,jdbcType=INTEGER}
+  </update>
+</mapper>

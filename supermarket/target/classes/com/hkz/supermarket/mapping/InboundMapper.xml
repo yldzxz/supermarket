@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.InboundMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Inbound">
+    <id column="inbound_id" jdbcType="INTEGER" property="inboundId" />
+    <result column="inbound_order_number" jdbcType="VARCHAR" property="inboundOrderNumber" />
+    <result column="inbound_commodity_id" jdbcType="VARCHAR" property="inboundCommodityId" />
+    <result column="inbound_commodity_name" jdbcType="VARCHAR" property="inboundCommodityName" />
+    <result column="inbound_commodity_num" jdbcType="DOUBLE" property="inboundCommodityNum" />
+    <result column="inbound_commodity_price" jdbcType="DECIMAL" property="inboundCommodityPrice" />
+    <result column="inbound_money" jdbcType="DECIMAL" property="inboundMoney" />
+    <result column="inbound_date" jdbcType="VARCHAR" property="inboundDate" />
+    <result column="inbound_super_id" jdbcType="VARCHAR" property="inboundSuperId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    inbound_id, inbound_order_number, inbound_commodity_id, inbound_commodity_name, inbound_commodity_num, 
+    inbound_commodity_price, inbound_money, inbound_date, inbound_super_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_inbound
+    where inbound_id = #{inboundId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_inbound
+    where inbound_id = #{inboundId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Inbound">
+    insert into tb_inbound (inbound_id, inbound_order_number, inbound_commodity_id, 
+      inbound_commodity_name, inbound_commodity_num, 
+      inbound_commodity_price, inbound_money, inbound_date, 
+      inbound_super_id)
+    values (#{inboundId,jdbcType=INTEGER}, #{inboundOrderNumber,jdbcType=VARCHAR}, #{inboundCommodityId,jdbcType=VARCHAR}, 
+      #{inboundCommodityName,jdbcType=VARCHAR}, #{inboundCommodityNum,jdbcType=DOUBLE}, 
+      #{inboundCommodityPrice,jdbcType=DECIMAL}, #{inboundMoney,jdbcType=DECIMAL}, #{inboundDate,jdbcType=VARCHAR}, 
+      #{inboundSuperId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Inbound">
+    update tb_inbound
+    <set>
+      <if test="inboundOrderNumber != null">
+        inbound_order_number = #{inboundOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundCommodityId != null">
+        inbound_commodity_id = #{inboundCommodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundCommodityName != null">
+        inbound_commodity_name = #{inboundCommodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundCommodityNum != null">
+        inbound_commodity_num = #{inboundCommodityNum,jdbcType=DOUBLE},
+      </if>
+      <if test="inboundCommodityPrice != null">
+        inbound_commodity_price = #{inboundCommodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="inboundMoney != null">
+        inbound_money = #{inboundMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="inboundDate != null">
+        inbound_date = #{inboundDate,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundSuperId != null">
+        inbound_super_id = #{inboundSuperId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where inbound_id = #{inboundId,jdbcType=INTEGER}
+  </update>
+
+	
+	<select id="selectInbound"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_inbound
+    order by inbound_date DESC
+  </select>
+  
+  <select id="selectInboundByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_inbound
+    where inbound_order_number = #{inboundOrderNumber}
+  </select>
+  
+</mapper>

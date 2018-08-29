@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.SupersMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Supers">
+    <id column="supers_id" jdbcType="INTEGER" property="supersId" />
+    <result column="supers_name" jdbcType="VARCHAR" property="supersName" />
+    <result column="supers_location" jdbcType="VARCHAR" property="supersLocation" />
+    <result column="supers_phone" jdbcType="VARCHAR" property="supersPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    supers_id, supers_name, supers_location, supers_phone
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_supers
+    where supers_id = #{supersId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_supers
+    where supers_id = #{supersId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Supers">
+    insert into tb_supers (supers_id, supers_name, supers_location, 
+      supers_phone)
+    values (#{supersId,jdbcType=INTEGER}, #{supersName,jdbcType=VARCHAR}, #{supersLocation,jdbcType=VARCHAR}, 
+      #{supersPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkz.supermarket.model.Supers">
+    insert into tb_supers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supersId != null">
+        supers_id,
+      </if>
+      <if test="supersName != null">
+        supers_name,
+      </if>
+      <if test="supersLocation != null">
+        supers_location,
+      </if>
+      <if test="supersPhone != null">
+        supers_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supersId != null">
+        #{supersId,jdbcType=INTEGER},
+      </if>
+      <if test="supersName != null">
+        #{supersName,jdbcType=VARCHAR},
+      </if>
+      <if test="supersLocation != null">
+        #{supersLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="supersPhone != null">
+        #{supersPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkz.supermarket.model.Supers">
+    update tb_supers
+    <set>
+      <if test="supersName != null">
+        supers_name = #{supersName,jdbcType=VARCHAR},
+      </if>
+      <if test="supersLocation != null">
+        supers_location = #{supersLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="supersPhone != null">
+        supers_phone = #{supersPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where supers_id = #{supersId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Supers">
+    update tb_supers
+    set supers_name = #{supersName,jdbcType=VARCHAR},
+      supers_location = #{supersLocation,jdbcType=VARCHAR},
+      supers_phone = #{supersPhone,jdbcType=VARCHAR}
+    where supers_id = #{supersId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_supers
+    where supers_name = #{supers_name,jdbcType=INTEGER}
+  </select>
+   
+   <select id="selectSupers"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_supers
+  </select>
+  
+  <select id="searchByName" parameterType = "java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_supers
+    where supers_name concat(concat('%',#{super_name}),'%')
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkz.supermarket.dao.DealMapper">
+  <resultMap id="BaseResultMap" type="com.hkz.supermarket.model.Deal">
+    <id column="deal_id" jdbcType="INTEGER" property="dealId" />
+    <result column="deal_order_number" jdbcType="VARCHAR" property="dealOrderNumber" />
+    <result column="deal_money" jdbcType="DECIMAL" property="dealMoney" />
+    <result column="deal_user_number" jdbcType="VARCHAR" property="dealUserNumber" />
+    <result column="deal_date" jdbcType="VARCHAR" property="dealDate" />
+    
+    <collection property="sells" ofType="com.hkz.supermarket.model.Sell">  
+           <id column="sell_id" jdbcType="INTEGER" property="sellId" />
+		    <id column="sell_order_number" jdbcType="VARCHAR" property="sellOrderNumber" />
+		    <result column="sell_deal_number" jdbcType="VARCHAR" property="sellDealNumber" />
+		    <result column="sell_vip_id" jdbcType="VARCHAR" property="sellVipId" />
+		    <result column="sell_commodity_code" jdbcType="VARCHAR" property="sellCommodityId" />
+		    <result column="sell_commodity_name" jdbcType="VARCHAR" property="sellCommodityName" />
+		    <result column="sell_num" jdbcType="DOUBLE" property="sellNum" />
+		    <result column="sell_price" jdbcType="DECIMAL" property="sellPrice" />
+		    <result column="sell_money" jdbcType="DECIMAL" property="sellMoney" />
+		    <result column="sell_date" jdbcType="TIMESTAMP" property="sellDate" /> 
+        </collection> 
+  </resultMap>
+  <sql id="Base_Column_List">
+    deal_id, deal_order_number, deal_money, deal_user_number, deal_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    d.*,s.*
+    from tb_deal d ,tb_sell s 
+    where d.deal_id = #{dealId} and s.sell_deal_number = d.deal_order_number
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_deal
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hkz.supermarket.model.Deal">
+    insert into tb_deal (deal_id, deal_order_number, deal_money, 
+      deal_user_number, deal_date)
+    values (#{dealId,jdbcType=INTEGER}, #{dealOrderNumber,jdbcType=VARCHAR}, #{dealMoney,jdbcType=DECIMAL}, 
+      #{dealUserNumber,jdbcType=VARCHAR}, #{dealDate,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.hkz.supermarket.model.Deal">
+    update tb_deal
+    set deal_order_number = #{dealOrderNumber,jdbcType=VARCHAR},
+      deal_money = #{dealMoney,jdbcType=DECIMAL},
+      deal_user_number = #{dealUserNumber,jdbcType=VARCHAR},
+      deal_date = #{dealDate,jdbcType=VARCHAR}
+    where deal_id = #{dealId,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="searchByDealMoney"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_deal 
+    order by deal_money DESC
+  </select>
+  <select id="searchByDealDate"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_deal
+    order by deal_date DESC
+  </select>
+  
+  <select id="searchByName" parameterType="string" resultMap="BaseResultMap">
+   select 
+    d.*,s.*
+    from tb_deal d ,tb_sell s 
+    where deal_order_number = #{deal_order_number} and s.sell_deal_number = d.deal_order_number
+  </select>
+  <select id="selectDeal"  resultMap="BaseResultMap">
+    select 
+    d.*
+    from tb_deal d
+  </select>
+  
+</mapper>
